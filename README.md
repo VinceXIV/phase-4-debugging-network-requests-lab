@@ -63,6 +63,19 @@ developing your own process.
 - Add a new toy when the toy form is submitted
 
   - How I debugged:
+  1. First, I got error 500 (Internal server error). This served as a clue to look
+  at the server side, the logs especially.
+
+  2. I checked the last error and found "NameError (uninitialized constant ToysController::Toys):".
+  With this info, I knew I had to look at the controller folder, and especially the toys_controller.rb file
+  to see where the class "Toys" has been used prior to being defined. My focus was especially on the action
+  "create", since that is where our post request is routed.
+
+  3. I found the toy object had been created using `toy = Toys.create(toy_params)`. There was an error as
+  "Toys" an inexistent class (which is also in line with ActiveRecord's convention of naming classes), was used
+  in stead of just "Toy".
+
+  4. I replaced "Toys" with "Toy" in that statement and it worked
 
 - Update the number of likes for a toy
 
