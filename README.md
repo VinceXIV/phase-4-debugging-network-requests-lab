@@ -80,6 +80,17 @@ developing your own process.
 - Update the number of likes for a toy
 
   - How I debugged:
+  1. I got the error **Uncaught (in promise) SyntaxError: Unexpected end of JSON input** when I tried liking a toy and 
+  knew that whatever I was getting back was not valid JSON.
+
+  2. Since I'm expecting to get back a JSON from the database, I had to check the update method in the controllers (since 
+  our request is a patch request and would be routed to it), and see what was being returned
+
+  3. I found the last statement in the update action to be `toy.update(toy_params)`, which is a statement that returns a
+  Toy instance object without serializing it to JSON.
+
+  4. I replaced the statement `toy.update(toy_params)` with `render json: toy.update(toy_params)` to make the action returns
+  a JSON object that is being expected in the front-end
 
 - Donate a toy to Goodwill (and delete it from our database)
 
